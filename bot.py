@@ -1,7 +1,8 @@
 from modules.module import Module
+from active_modules import *
 
 
-modules = Module.__subclasses__()
+modules = [module() for module in Module.__subclasses__()]
 try:
     while True:
         for module in modules:
