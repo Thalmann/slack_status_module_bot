@@ -31,14 +31,14 @@ def post_to_slack_channel(channel_webhook_url, message):
 
 class Module():
 
-    def __init__(self, recurring_in_seconds, action, kwargs):
-        self.recurring_in_seconds = recurring_in_seconds
-        self.action = action
-        self.kwargs = kwargs
+    recurring_in_seconds = NotImplementedError
+    action = NotImplementedError
+
+    def __init__(self):
         self.last_run = datetime.min
 
     def run(self):
-        self.action(**self.kwargs)
+        self.action()
         self.last_run = datetime.now()
 
     def should_run(self):
@@ -46,13 +46,15 @@ class Module():
         return since_last_run.total_seconds() > self.recurring_in_seconds
 
 
-kwargs = dict(
-    channel_webhook_url=test_channel_webhook_url,
-    message='hey',
-)
-hey_module = Module(
-    recurring_in_seconds=10, action=post_to_slack_channel, kwargs=kwargs)
-modules = [hey_module]
+class HelloWorld(Module):
+
+    recurring_in_seconds = 10
+
+    def action(self):
+        post_to_slack_channel(test_channel_webhook_url, 'Hello World!')
+
+
+modules = [HelloWorld()]
 try:
     while True:
         for module in modules:
