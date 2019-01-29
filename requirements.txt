@@ -1,3 +1,4 @@
 simplejson
 httplib2
 pyowm
+requests

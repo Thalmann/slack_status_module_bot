@@ -7,7 +7,7 @@ from private_keys import OPEN_WEATHER_MAP_API_KEY
 
 class DailyWeather(Module):
 
-    recurring_in_seconds = 60 * 60 * 24
+    recurring_in_seconds = 60 * 60 * 5
 
     def action(self):
         owm = pyowm.OWM(OPEN_WEATHER_MAP_API_KEY)
